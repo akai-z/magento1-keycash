@@ -1,0 +1,44 @@
+<?php $helper = Mage::helper('keycash_core') ?>
+<?php $verificationData = $this->getVerificationData() ?>
+<div>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo $helper->__('KeyCash Verification') ?></h4>
+        </div>
+        <div class="fieldset">
+            <table cellspacing="0" class="form-list">
+                <?php foreach ($verificationData as $item): ?>
+                <tr>
+                    <td class="label"><label><?php echo $item['label'] ?></label></td>
+                    <td class="value"><strong><?php echo $item['value'] ?></strong></td>
+                </tr>
+                <?php endforeach ?>
+                <?php if ($this->isVerificationStatusRetrieveButtonEnabled()): ?>
+                <tr>
+                    <?php $buttonLabel = $helper->__('Get Verification Status') ?>
+                    <td class="label"><label><?php echo $buttonLabel ?></label></td>
+                    <td class="value">
+                        <button type="button" class="scalable" title="<?php echo $buttonLabel ?>"
+                            onclick="setLocation('<?php echo $this->getVerificationStatusRetrieveRequestUrl() ?>')">
+                            <span><span><span><?php echo $helper->__('Run') ?></span></span></span>
+                        </button>
+                    </td>
+                </tr>
+                <?php endif ?>
+                <?php if ($this->isOrderVerifyButtonEnabled()): ?>
+                <tr>
+                    <?php $buttonLabel = $helper->__('Verify Order') ?>
+                    <td class="label"><label><?php echo $buttonLabel ?></label></td>
+                    <td class="value">
+                        <button type="button" class="scalable" title="<?php echo $buttonLabel ?>"
+                            onclick="setLocation('<?php echo $this->getOrderVerifyUrl() ?>')">
+                            <span><span><span><?php echo $helper->__('Run') ?></span></span></span>
+                        </button>
+                    </td>
+                </tr>
+                <?php endif ?>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>

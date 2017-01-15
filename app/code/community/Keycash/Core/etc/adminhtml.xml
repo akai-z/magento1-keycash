@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <sales>
+                        <children>
+                            <order>
+                                <children>
+                                    <actions>
+                                        <children>
+                                            <keycash translate="title" module="keycash_core">
+                                                <title>KeyCash</title>
+                                                <children>
+                                                    <get_verification_status translate="title" module="keycash_core">
+                                                        <title>Get Order Verification Status</title>
+                                                    </get_verification_status>
+                                                    <verify translate="title" module="keycash_core">
+                                                        <title>Verify Order</title>
+                                                    </verify>
+                                                    <mass_verify translate="title" module="keycash_core">
+                                                        <title>Mass Verify Orders</title>
+                                                    </mass_verify>
+                                                </children>
+                                            </keycash>
+                                        </children>
+                                    </actions>
+                                </children>
+                            </order>
+                        </children>
+                    </sales>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <keycash translate="title" module="keycash_core">
+                                        <title>KeyCash</title>
+                                    </keycash>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

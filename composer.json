@@ -1,0 +1,21 @@
+{
+    "name": "keycash/core",
+    "type": "magento-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "version": "0.1.0",
+    "description": "A Magento 1 module that integrates stores with KeyCash service for sales orders verification",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "authors":[
+        {
+            "name": "Ammar Khalid",
+            "email": "ammar@keycash.co",
+            "homepage": "https://github.com/amr-z",
+            "role": "Developer"
+        }
+    ]
+}

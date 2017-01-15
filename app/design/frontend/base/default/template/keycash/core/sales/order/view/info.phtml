@@ -1,0 +1,16 @@
+<?php $helper = Mage::helper('keycash_core') ?>
+<div class="order-info">
+    <h2 class="table-caption"><?php echo $helper->__('KeyCash') ?></h2>
+</div>
+<div class="order-info">
+    <div class="col-wrapper order-info-box">
+        <div class="box">
+            <div class="box-title">
+                <h2><?php echo $helper->__('Verification Status') ?></h2>
+            </div>
+            <div class="box-content">
+                <address><?php echo $this->getVerificationState() ?></address>
+            </div>
+        </div>
+    </div>
+</div>

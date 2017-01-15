@@ -1,0 +1,7 @@
+app/code/community/Keycash/Core/
+app/design/adminhtml/default/default/layout/keycash/core.xml
+app/design/adminhtml/default/default/template/keycash/core/
+app/design/frontend/base/default/layout/keycash/core.xml
+app/design/frontend/base/default/template/keycash/core/
+app/etc/modules/Keycash_Core.xml
+skin/adminhtml/default/default/keycash/core/
