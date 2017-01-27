@@ -8,7 +8,7 @@ class Keycash_Core_Block_Sales_Order_View_Info extends Mage_Core_Block_Template
     {
         $helper = Mage::helper('keycash_core');
 
-        if (!$helper->isModuleEnabled() || $this->getOrder()->getRelationChildId()) {
+        if (!$helper->isEnabled() || $this->getOrder()->getRelationChildId()) {
             return;
         }
 

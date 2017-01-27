@@ -5,7 +5,7 @@ class Keycash_Core_Model_Observer
     public function checkCronHeartbeatStatus(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('keycash_core');
-        if (!$helper->isModuleEnabled()) {
+        if (!$helper->isEnabled()) {
             return;
         }
 
@@ -47,7 +47,7 @@ class Keycash_Core_Model_Observer
 
     public function addKeycashVerificationStateToSalesOrderGridCollection(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('keycash_core')->isModuleEnabled()) {
+        if (!Mage::helper('keycash_core')->isEnabled()) {
             return;
         }
 
@@ -71,7 +71,7 @@ class Keycash_Core_Model_Observer
     public function addKeycashVerificationStateColumnToSalesOrderGrid(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('keycash_core');
-        if (!$helper->isModuleEnabled()) {
+        if (!$helper->isEnabled()) {
             return;
         }
 
@@ -102,7 +102,7 @@ class Keycash_Core_Model_Observer
     public function addKeycashOrdersMassVerificationToSalesOrderGrid(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('keycash_core');
-        if (!$helper->isModuleEnabled()) {
+        if (!$helper->isEnabled()) {
             return;
         }
 
@@ -125,7 +125,7 @@ class Keycash_Core_Model_Observer
     public function updateKeycashOrderStatus(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('keycash_core');
-        if (!$helper->isModuleEnabled() || !$helper->isSendOrdersEnabled()) {
+        if (!$helper->isEnabled() || !$helper->isSendOrdersEnabled()) {
             return;
         }
 
@@ -142,7 +142,7 @@ class Keycash_Core_Model_Observer
 
             if (!$keycashOrder->getId()) {
                 Mage::register(
-                    'keycash_order_status_update_request', 
+                    'keycash_order_status_update_request',
                     -1
                 );
 
@@ -160,7 +160,7 @@ class Keycash_Core_Model_Observer
                 ->save();
 
             Mage::register(
-                'keycash_order_status_update_request', 
+                'keycash_order_status_update_request',
                 1
             );
 
@@ -195,7 +195,7 @@ class Keycash_Core_Model_Observer
         }
 
         Mage::register(
-            'keycash_order_status_update_request', 
+            'keycash_order_status_update_request',
             $keycashOrderStatusUpdateRequest
         );
     }
@@ -203,7 +203,7 @@ class Keycash_Core_Model_Observer
     public function sendCronHeartbeat()
     {
         $helper = Mage::helper('keycash_core');
-        if (!$helper->isModuleEnabled()) {
+        if (!$helper->isEnabled()) {
             return;
         }
 
@@ -222,7 +222,7 @@ class Keycash_Core_Model_Observer
     public function createKeycashOrders()
     {
         $helper = Mage::helper('keycash_core');
-        if (!$helper->isModuleEnabled() || !$helper->isSendOrdersEnabled()) {
+        if (!$helper->isEnabled() || !$helper->isSendOrdersEnabled()) {
             return;
         }
 
@@ -243,7 +243,7 @@ class Keycash_Core_Model_Observer
     public function updateKeycashOrdersVerificationStatus()
     {
         $helper = Mage::helper('keycash_core');
-        if (!$helper->isModuleEnabled()) {
+        if (!$helper->isEnabled()) {
             return;
         }
 
@@ -299,7 +299,7 @@ class Keycash_Core_Model_Observer
     public function runScheduledApiRequests()
     {
         $helper = Mage::helper('keycash_core');
-        if (!$helper->isModuleEnabled() || !$helper->isSendOrdersEnabled()) {
+        if (!$helper->isEnabled() || !$helper->isSendOrdersEnabled()) {
             return;
         }
 

@@ -15,7 +15,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         $helper = Mage::helper('keycash_core');
         $order = $this->getOrder();
 
-        if (!$helper->isModuleEnabled() || $order->getRelationChildId()) {
+        if (!$helper->isEnabled() || $order->getRelationChildId()) {
             $this->canShowTab = false;
             return;
         }

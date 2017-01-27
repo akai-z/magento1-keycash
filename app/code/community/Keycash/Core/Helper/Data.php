@@ -23,7 +23,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
 
     const DEFAULT_LOG_FILE = 'keycash.log';
 
-    public function isModuleEnabled()
+    public function isEnabled()
     {
         return Mage::getStoreConfig(self::XML_PATH_GENERAL_ENABLED);
     }

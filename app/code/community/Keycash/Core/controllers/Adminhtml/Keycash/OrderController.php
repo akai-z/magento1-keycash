@@ -343,7 +343,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
     {
         $helper = Mage::helper('keycash_core');
 
-        return $helper->isModuleEnabled()
+        return $helper->isEnabled()
             ? Mage::getSingleton('admin/session')->isAllowed($this->getAclResource())
             : false;
     }
