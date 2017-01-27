@@ -36,7 +36,6 @@ class Keycash_Core_Model_Source_Order_Verification_State
 
             $options = $alternativeFormat;
         }
-        
 
         return $options;
     }

@@ -38,9 +38,6 @@
                 <setup>
                     <module>Keycash_Core</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </keycash_core_setup>
         </resources>
     </global>
