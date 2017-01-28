@@ -1,13 +1,45 @@
 <?php
+/**
+ * KeyCash
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Keycash
+ * @package     Keycash_Core
+ * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
+/**
+ * Order verification tab block
+ *
+ * @category    Keycash
+ * @package     Keycash_Core
+ */
 class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
     extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * @var bool
+     */
     protected $canShowTab = true;
 
+    /**
+     * @var Keycash_Core_Model_Order
+     */
     protected $keycashOrder;
 
+    /**
+     * Specifies whether an order has a closed status
+     *
+     * @var bool
+     */
     protected $isClosedOrder = false;
 
     protected function _construct()
@@ -43,11 +75,21 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         $this->setTemplate('keycash/core/sales/order/view/tab/verification.phtml');
     }
 
+    /**
+     * Retrieves current sales order
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function getOrder()
     {
         return Mage::registry('current_order');
     }
 
+    /**
+     * Retrieves KeyCash order associated with a sales order
+     *
+     * @return Keycash_Core_Model_Order
+     */
     protected function getKeycashOrder()
     {
         $order = $this->getOrder();
@@ -57,6 +99,11 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         return $keycashOrder;
     }
 
+    /**
+     * Retrieve KeyCash order verification data
+     *
+     * @return array
+     */
     public function getVerificationData()
     {
         $data = array();
@@ -106,6 +153,9 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         return $data;
     }
 
+    /**
+     * @return bool
+     */
     public function isVerificationStatusRetrieveButtonEnabled()
     {
         if ($this->isClosedOrder) {
@@ -127,6 +177,9 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         return false;
     }
 
+    /**
+     * @return string
+     */
     public function getVerificationStatusRetrieveRequestUrl()
     {
         $param = array(
@@ -136,6 +189,9 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         return $this->getUrl('adminhtml/keycash_order/getverificationstatus', $param);
     }
 
+    /**
+     * @return bool
+     */
     public function isOrderVerifyButtonEnabled()
     {
         if ($this->isClosedOrder) {
@@ -157,6 +213,9 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         return true;
     }
 
+    /**
+     * @return string
+     */
     public function getOrderVerifyUrl()
     {
         $params = array();
@@ -175,21 +234,33 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         return $this->getUrl('adminhtml/keycash_order/verify', $param);
     }
 
+    /**
+     * @return string
+     */
     public function getTabLabel()
     {
         return Mage::helper('keycash_core')->__('KeyCash Verification');
     }
 
+    /**
+     * @return string
+     */
     public function getTabTitle()
     {
         return Mage::helper('keycash_core')->__('KeyCash Order Verification');
     }
 
+    /**
+     * @return bool
+     */
     public function canShowTab()
     {
         return $this->canShowTab;
     }
 
+    /**
+     * @return bool
+     */
     public function isHidden()
     {
         return false;

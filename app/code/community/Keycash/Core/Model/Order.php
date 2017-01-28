@@ -1,5 +1,19 @@
 <?php
-
+/**
+ * KeyCash
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Keycash
+ * @package     Keycash_Core
+ * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
 {
     protected function _construct()
@@ -7,24 +21,41 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         $this->_init('keycash_core/order');
     }
 
+    /**
+     * @param int $orderId
+     * @return Keycash_Core_Model_Order
+     */
     public function loadBySalesOrderId($orderId)
     {
         $this->setData($this->getResource()->loadBySalesOrderId($orderId));
         return $this;
     }
 
+    /**
+     * @param int $orderId
+     * @return Keycash_Core_Model_Order
+     */
     public function loadByKeycashOrderId($orderId)
     {
         $this->setData($this->getResource()->loadByKeycashOrderId($orderId));
         return $this;
     }
 
+    /**
+     * @param int $incrementId
+     * @return Keycash_Core_Model_Order
+     */
     public function loadByIncrementId($incrementId)
     {
         $this->setData($this->getResource()->loadByIncrementId($incrementId));
         return $this;
     }
 
+    /**
+     * @param int|Mage_Sales_Model_Order $order
+     * @param bool $checkKeycashOrder
+     * @return bool
+     */
     public function isOrderVerifiable($order, $checkKeycashOrder = true)
     {
         $helper = Mage::helper('keycash_core');
@@ -107,6 +138,13 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         return $orderCollection->getSize() ? true : false;
     }
 
+    /**
+     * Returns a filtered sales order collection
+     *
+     * @param array $orderIds
+     * @param bool $isUpdate
+     * @return Mage_Sales_Model_Resource_Order_Collection
+     */
     public function getSalesOrderCollection($orderIds = array(), $isUpdate = false)
     {
         $helper = Mage::helper('keycash_core');
@@ -188,7 +226,7 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
             $orderCollection->getSelect()->limit($ordersLimit);
 
             $orderFullCollection = Mage::getModel('sales/order_item')->getCollection();
-            
+
             $orderFullCollection->getSelect()
                 ->reset(Zend_Db_Select::COLUMNS)
                 ->columns($orderCollectionAttributes['order_item']);
@@ -210,6 +248,11 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         return $orderCollection;
     }
 
+    /**
+     * Retrieves a set of attributes for sales order collection
+     *
+     * @return array
+     */
     public function getOrderCollectionAttributes()
     {
         $exportFields = array(
@@ -269,6 +312,14 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         return $exportFields;
     }
 
+    /**
+     * Retrieves API order creation request data
+     *
+     * @param int|null $orderId
+     * @param bool $isUpdate
+     * @param bool $asJson
+     * @return array|string
+     */
     public function getApiOrderCreationData($orderId = null, $isUpdate = false, $asJson = false)
     {
         $data = array();
@@ -351,6 +402,10 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         return $data;
     }
 
+    /**
+     * @param Mage_Sales_Model_Order $order
+     * @return array
+     */
     protected function getApiOrderCreationBillingAddressData($order)
     {
         $orderBillingAddressContactName = $order->getOrderBillingFirstname()
@@ -378,6 +433,10 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         return $data;
     }
 
+    /**
+     * @param Mage_Sales_Model_Order $order
+     * @return array
+     */
     protected function getApiOrderCreationShippingAddressData($order)
     {
         $orderShippingAddressContactName = $order->getOrderShippingFirstname()
@@ -405,6 +464,10 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         return $data;
     }
 
+    /**
+     * @param Mage_Sales_Model_Order $order
+     * @return array
+     */
     protected function getApiOrderCreationTotalsData($order)
     {
         $data = array(
@@ -418,6 +481,10 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         return $data;
     }
 
+    /**
+     * @param Mage_Sales_Model_Order $order
+     * @return array
+     */
     protected function getApiOrderCreationOrderItemsData($order)
     {
         $data = array(
@@ -438,11 +505,19 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         return $data;
     }
 
+    /**
+     * @param float|string|int $price
+     * @return string
+     */
     protected function getPriceIntValue($price)
     {
         return !empty($price) && (int) $price != 0 ? str_replace('.', '', $price) : 0;
     }
 
+    /**
+     * @param Mage_Sales_Model_Order $order
+     * @return string
+     */
     protected function getOrderLanguage($order)
     {
         $localeCode = Mage::getStoreConfig('general/locale/code', $order->getStoreId());

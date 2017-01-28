@@ -1,7 +1,27 @@
 <?php
-
+/**
+ * KeyCash
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Keycash
+ * @package     Keycash_Core
+ * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Keycash_Core_Model_Observer
 {
+    /**
+     * Checks the last time a cron job has been run,
+     * and adds a notification if it has not been run for a long time.
+     *
+     * @param Varien_Event_Observer $observer
+     */
     public function checkCronHeartbeatStatus(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('keycash_core');
@@ -35,6 +55,9 @@ class Keycash_Core_Model_Observer
         $helper->setCronHeartbeatWarningNotification($notification->getNotificationId());
     }
 
+    /**
+     * Updates stored server public IP
+     */
     public function updatePublicIp()
     {
         $helper = Mage::helper('keycash_core');
@@ -45,6 +68,9 @@ class Keycash_Core_Model_Observer
         }
     }
 
+    /**
+     * @param Varien_Event_Observer $observer
+     */
     public function addKeycashVerificationStateToSalesOrderGridCollection(Varien_Event_Observer $observer)
     {
         if (!Mage::helper('keycash_core')->isEnabled()) {
@@ -68,6 +94,9 @@ class Keycash_Core_Model_Observer
         }
     }
 
+    /**
+     * @param Varien_Event_Observer $observer
+     */
     public function addKeycashVerificationStateColumnToSalesOrderGrid(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('keycash_core');
@@ -99,6 +128,9 @@ class Keycash_Core_Model_Observer
 
     }
 
+    /**
+     * @param Varien_Event_Observer $observer
+     */
     public function addKeycashOrdersMassVerificationToSalesOrderGrid(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('keycash_core');
@@ -122,6 +154,9 @@ class Keycash_Core_Model_Observer
         }
     }
 
+    /**
+     * @param Varien_Event_Observer $observer
+     */
     public function updateKeycashOrderStatus(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('keycash_core');
@@ -200,6 +235,9 @@ class Keycash_Core_Model_Observer
         );
     }
 
+    /**
+     * Updates cron heartbeat time and removes notification
+     */
     public function sendCronHeartbeat()
     {
         $helper = Mage::helper('keycash_core');
@@ -296,6 +334,9 @@ class Keycash_Core_Model_Observer
         }
     }
 
+    /**
+     * Executes stored scheduled API request
+     */
     public function runScheduledApiRequests()
     {
         $helper = Mage::helper('keycash_core');

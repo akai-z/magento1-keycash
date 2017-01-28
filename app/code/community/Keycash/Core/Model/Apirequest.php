@@ -1,5 +1,19 @@
 <?php
-
+/**
+ * KeyCash
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Keycash
+ * @package     Keycash_Core
+ * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
 {
     protected function _construct()
@@ -7,6 +21,9 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         $this->_init('keycash_core/apirequest');
     }
 
+    /**
+     * Executes stored scheduled API request
+     */
     public function runScheduledRequest()
     {
         $requestName = ucwords(str_replace('_', ' ', $this->getRequestName()));
@@ -15,6 +32,9 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         call_user_func(array($this, $requestFunction));
     }
 
+    /**
+     * @return mixed
+     */
     public function getRequestData()
     {
         $requestData = @unserialize(parent::getRequestData());
@@ -26,6 +46,12 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         return $requestData;
     }
 
+    /**
+     * Executes KeyCash order creation API request
+     *
+     * @param array $requestData
+     * @return array
+     */
     public function executeOrderCreation($requestData = array())
     {
         $apiHelper = Mage::helper('keycash_core/api');
@@ -76,6 +102,12 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         return count($result) == 1 ? reset($result) : $result;
     }
 
+    /**
+     * Executes KeyCash order verification API request
+     *
+     * @param array $requestData
+     * @return array
+     */
     public function executeOrderVerification($requestData = array())
     {
         $apiHelper = Mage::helper('keycash_core/api');
@@ -138,6 +170,12 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         return $result;
     }
 
+    /**
+     * Executes KeyCash mass order verification API request
+     *
+     * @param array $requestData
+     * @return array
+     */
     public function executeMassOrderVerification($requestData = array())
     {
         $apiHelper = Mage::helper('keycash_core/api');
@@ -224,7 +262,7 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         );
 
         $verificationResponse = $this->executeOrderVerification($keycashOrderIds);
-        
+
         if (!$verificationResponse) {
             return;
         }
@@ -254,6 +292,13 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         }
     }
 
+    /**
+     * Executes KeyCash order data retrieve API request
+     *
+     * @param array $requestData
+     * @param bool $isIncludeVerifications
+     * @return array
+     */
     public function executeOrderRetrieveRequest($orderId, $isIncludeVerifications = false)
     {
         $apiHelper = Mage::helper('keycash_core/api');
@@ -283,6 +328,12 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         return $result;
     }
 
+    /**
+     * Executes KeyCash order data update API request
+     *
+     * @param array $requestData
+     * @return array
+     */
     public function executeOrderUpdate($requestData = array())
     {
         $apiHelper = Mage::helper('keycash_core/api');
@@ -321,6 +372,13 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         return $result;
     }
 
+    /**
+     * Retrieves processed KeyCash order creation response data
+     *
+     * @param array $response
+     * @param int|null $orderId
+     * @return array
+     */
     public function getOrderCreationResponseData($response, $orderId = null)
     {
         $data = array();
@@ -345,6 +403,13 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         return $data;
     }
 
+    /**
+     * Retrieves processed KeyCash order verification response data
+     *
+     * @param array $response
+     * @param int|null $orderId
+     * @return array
+     */
     public function getOrderVerificationResponseData($response, $orderId = null)
     {
         $data = array();
@@ -380,6 +445,12 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         return $data;
     }
 
+    /**
+     * Retrieves KeyCash order verification data from order retrieve request response data
+     *
+     * @param array $response
+     * @return array
+     */
     public function getOrderRetrieveRequestVerificationResponseData($response)
     {
         $data = array();

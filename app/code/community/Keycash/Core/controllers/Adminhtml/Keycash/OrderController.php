@@ -1,7 +1,24 @@
 <?php
-
+/**
+ * KeyCash
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Keycash
+ * @package     Keycash_Core
+ * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Order verification action
+     */
     public function verifyAction()
     {
         $orderId = null;
@@ -28,6 +45,9 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
         $this->_redirectReferer();
     }
 
+    /**
+     * Order mass verification action
+     */
     public function massVerifyAction()
     {
         $orderIds = $this->getRequest()->getParam('order_ids');
@@ -123,6 +143,9 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
         $this->_redirectReferer();
     }
 
+    /**
+     * Retrieves order verification status
+     */
     public function getVerificationStatusAction()
     {
         $orderId = $this->getRequest()->getParam('keycash_order_id');
@@ -233,6 +256,10 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
         $this->_redirectReferer();
     }
 
+    /**
+     * @param int $orderId
+     * @return array|string
+     */
     protected function verifyOrder($orderId)
     {
         $result = '';
@@ -339,6 +366,11 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
         return $result;
     }
 
+    /**
+     * Checks whether action access is allowed
+     *
+     * @return bool
+     */
     protected function _isAllowed()
     {
         $helper = Mage::helper('keycash_core');
@@ -348,6 +380,11 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
             : false;
     }
 
+    /**
+     * Retrieves action ACL resource
+     *
+     * @return string
+     */
     protected function getAclResource()
     {
         $action = strtolower($this->getRequest()->getActionName());
