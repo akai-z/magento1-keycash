@@ -64,20 +64,6 @@ class Keycash_Core_Model_Source_Order_Verification_State
     /**
      * @return array
      */
-    public function getGridFilterOptions()
-    {
-        $options = array();
-
-        foreach ($this->toOptionArray() as $option) {
-            $options[$option['value']] = $option['label'];
-        }
-
-        return $options;
-    }
-
-    /**
-     * @return array
-     */
     public function getFlatOptions()
     {
         $options = array();
