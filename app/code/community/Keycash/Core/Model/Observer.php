@@ -57,8 +57,10 @@ class Keycash_Core_Model_Observer
 
     /**
      * Updates stored server public IP
+     *
+     * @param Varien_Event_Observer $observer
      */
-    public function updatePublicIp()
+    public function updatePublicIp(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('keycash_core');
         $ip = Mage::helper('core/http')->getServerAddr();
