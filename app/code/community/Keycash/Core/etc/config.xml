@@ -92,6 +92,15 @@
                     </keycash_public_ip_update>
                 </observers>
             </admin_session_user_login_success>
+            <model_config_data_save_before>
+                <observers>
+                    <keycash_cron_notification_remove_on_module_disable>
+                        <type>singleton</type>
+                        <class>keycash_core/observer</class>
+                        <method>removeCronNotificationOnModuleDisable</method>
+                    </keycash_cron_notification_remove_on_module_disable>
+                </observers>
+            </model_config_data_save_before>
             <sales_order_grid_collection_load_before>
                 <observers>
                     <keycash_sales_order_grid_collection_verification_state_field>

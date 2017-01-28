@@ -73,6 +73,38 @@ class Keycash_Core_Model_Observer
     /**
      * @param Varien_Event_Observer $observer
      */
+    public function removeCronNotificationOnModuleDisable(Varien_Event_Observer $observer)
+    {
+        $helper = Mage::helper('keycash_core');
+        $config = $observer->getObject();
+
+        if ($config->getSection() != 'keycash') {
+            return;
+        }
+
+        $groups = $config->getGroups();
+        $isEnabled = $groups['general']['fields']['enabled']['value'];
+
+        if ($isEnabled) {
+            return;
+        }
+
+        $lastNotificationId = Mage::helper('keycash_core')
+            ->getCronHeartbeatWarningNotification();
+
+        if ($lastNotificationId) {
+            $notificationModel = Mage::getModel('adminnotification/inbox');
+            $notification = $notificationModel->load($lastNotificationId);
+
+            if ($notification->getId() && !$notification->getIsRemove()) {
+                $notification->setIsRemove(1)->save();
+            }
+        }
+    }
+
+    /**
+     * @param Varien_Event_Observer $observer
+     */
     public function addKeycashVerificationStateToSalesOrderGridCollection(Varien_Event_Observer $observer)
     {
         if (!Mage::helper('keycash_core')->isEnabled()) {
