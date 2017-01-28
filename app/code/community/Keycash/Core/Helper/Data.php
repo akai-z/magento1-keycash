@@ -59,7 +59,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfig(self::XML_PATH_GENERAL_ENABLED);
+        return (bool) Mage::getStoreConfig(self::XML_PATH_GENERAL_ENABLED);
     }
 
     /**
@@ -67,7 +67,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getAccountId()
     {
-        return Mage::helper('core')->decrypt(Mage::getStoreConfig(self::XML_PATH_GENERAL_ACCOUNT_ID));
+        return (int) Mage::helper('core')->decrypt(Mage::getStoreConfig(self::XML_PATH_GENERAL_ACCOUNT_ID));
     }
 
     /**
@@ -75,7 +75,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getStoreId()
     {
-        return Mage::helper('core')->decrypt(Mage::getStoreConfig(self::XML_PATH_GENERAL_STORE_ID));
+        return (int) Mage::helper('core')->decrypt(Mage::getStoreConfig(self::XML_PATH_GENERAL_STORE_ID));
     }
 
     /**
@@ -113,7 +113,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isSendOrdersEnabled()
     {
-        return Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_SEND_ORDERS);
+        return (bool) Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_SEND_ORDERS);
     }
 
     /**
@@ -123,7 +123,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getSendOrdersLimit()
     {
-        return Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_SEND_ORDERS_LIMIT);
+        return (int) Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_SEND_ORDERS_LIMIT);
     }
 
     /**
@@ -133,7 +133,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isOrderPaymentFilterEnabled()
     {
-        return Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_ORDER_PAYMENT_FILTER);
+        return (bool) Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_ORDER_PAYMENT_FILTER);
     }
 
     /**
@@ -159,7 +159,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isOrderShippingCountryFilterEnabled()
     {
-        return Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_ORDER_SHIPPING_COUNTRY_FILTER);
+        return (bool) Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_ORDER_SHIPPING_COUNTRY_FILTER);
     }
 
     /**
@@ -198,7 +198,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getLastCronHeartbeat()
     {
-        return Mage::getStoreConfig(self::XML_PATH_CRON_HEARTBEAT);
+        return (int) Mage::getStoreConfig(self::XML_PATH_CRON_HEARTBEAT);
     }
 
     /**
@@ -226,7 +226,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCronHeartbeatWarningNotification()
     {
-        return Mage::getStoreConfig(self::XML_PATH_CRON_HEARTBEAT_WARNING_NOTIFICATION);
+        return (int) Mage::getStoreConfig(self::XML_PATH_CRON_HEARTBEAT_WARNING_NOTIFICATION);
     }
 
     /**
