@@ -198,7 +198,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getLastCronHeartbeat()
     {
-        return (int) Mage::getStoreConfig(self::XML_PATH_CRON_HEARTBEAT);
+        return (int) $this->getConfigDataDbValue(self::XML_PATH_CRON_HEARTBEAT);
     }
 
     /**
@@ -226,7 +226,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCronHeartbeatWarningNotification()
     {
-        return (int) Mage::getStoreConfig(self::XML_PATH_CRON_HEARTBEAT_WARNING_NOTIFICATION);
+        return (int) $this->getConfigDataDbValue(self::XML_PATH_CRON_HEARTBEAT_WARNING_NOTIFICATION);
     }
 
     /**
@@ -240,6 +240,23 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
             self::XML_PATH_CRON_HEARTBEAT_WARNING_NOTIFICATION,
             $notificationId
         );
+    }
+
+    /**
+     * Retrieves config data value directly from database
+     *
+     * @param string $path
+     * @return string|null
+     */
+    public function getConfigDataDbValue($path)
+    {
+        $configDataCollection = Mage::getModel('core/config_data')
+            ->getCollection()
+            ->addFieldToFilter('path', $path);
+
+        return $configDataCollection->getSize()
+            ? $configDataCollection->getFirstItem()->getValue()
+            : null;
     }
 
     /**

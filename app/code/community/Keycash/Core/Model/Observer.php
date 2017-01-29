@@ -37,18 +37,25 @@ class Keycash_Core_Model_Observer
             }
         }
 
-        if ($lastNotificationId = $helper->getCronHeartbeatWarningNotification()) {
+        $lastNotificationId = $helper->getCronHeartbeatWarningNotification();
+        if ($lastNotificationId) {
             $notificationModel = Mage::getModel('adminnotification/inbox');
             $notification = $notificationModel->load($lastNotificationId);
-            if (!$notification->getIsRemove()) {
-                $notification->setIsRemove(1)->save();
+
+            if ($notification->getId() && !$notification->getIsRemove()) {
+                if ($notification->getIsRead()) {
+                    $notification->setIsRead(0)->save();
+                }
+
+                return;
             }
         }
 
         $notificationModel = Mage::getModel('adminnotification/inbox');
         $notificationModel->addMajor(
             $helper->__('KeyCash service is inactive'),
-            $helper->__('KeyCash service is inactive, please make sure that Cron is running.')
+            $helper->__('KeyCash service is inactive, please make sure that Cron is running.'),
+            Mage::helper('adminhtml')->getUrl('adminhtml/notification/index', array('_secure' => true))
         );
 
         $notification = $notificationModel->loadLatestNotice();
@@ -270,7 +277,7 @@ class Keycash_Core_Model_Observer
     }
 
     /**
-     * Updates cron heartbeat time and removes notification
+     * Updates cron heartbeat time and removes cron notification
      */
     public function sendCronHeartbeat()
     {
@@ -285,7 +292,8 @@ class Keycash_Core_Model_Observer
 
         $cronHeartbeatWarningNotification = $helper->getCronHeartbeatWarningNotification();
         $notification = $notificationModel->load($cronHeartbeatWarningNotification);
-        if (!$notification->getIsRemove()) {
+
+        if ($notification->getId() && !$notification->getIsRemove()) {
             $notification->setIsRemove(1)->save();
             $helper->setCronHeartbeatWarningNotification(null);
         }
