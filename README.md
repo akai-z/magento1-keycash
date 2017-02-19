@@ -1,30 +1,34 @@
 # KeyCash
 
-### What is KeyCash
-
 KeyCash is a service that supports cash on delivery (COD) orders in emerging markets.
 
-COD is a popular alternative to credit card payments for e-commerce shopping.
-It is dominant in countries such as: India, Russia, Saudi Arabia.
-And a popular one in East Europe, Asia and Africa.
+COD is a popular alternative to credit card payments for e-commerce shopping.  
+It is dominant in countries such as: India, Russia, Saudi Arabia.  
+And a popular one in Asia, Africa and East Europe.
 
-COD orders are higher risk for merchants,
+COD orders are higher risk for merchants,  
 because orders may be rejected upon delivery wasting time and money.
 
 That's where KeyCash comes in.
 
-### About the module
+## What is this module for?
 
-KeyCash Magento module main functionality
-is to integrate Magento websites with KeyCash service.
+The module's main functionality is to integrate Magento with KeyCash service,  
+in order to verify sales orders through it.
 
-Allowing store owners to send their sales orders details to KeyCash, and verify them.
+Thus, keeping merchants informed about their COD orders, and whether they  
+should comfortably proceed with delivering them.
 
-### Authors
+## Documentation
+
+For full documentation, please check the wiki:  
+https://github.com/keycash/magento1-keycash/wiki
+
+## Authors
 
 * [Ammar Khalid](https://github.com/amr-z)
 
-### License
+## License
 
 * OSL-3.0
 * AFL-3.0
