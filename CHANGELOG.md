@@ -1,5 +1,5 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [x.x.x](https://github.com/keycash/magento1-keycash/tree/x.x.x) - xxxx-xx-xx
-* Release
+## [0.1.0](https://github.com/keycash/magento1-keycash/tree/0.1.0) - 2017-02-19
+* Initial release.
