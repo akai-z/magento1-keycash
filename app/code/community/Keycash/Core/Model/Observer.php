@@ -155,7 +155,7 @@ class Keycash_Core_Model_Observer
                 'Keycash_Core_Block_Adminhtml_Sales_Order_Grid_Column_Filter_Verificationstate';
 
             $block->addColumnAfter('keycash_verification_state', array(
-                'header'   => $helper->__('KeyCash Verification Status'),
+                'header'   => $helper->__('Verification Status'),
                 'renderer' => 'keycash_core/adminhtml_sales_order_grid_column_renderer_verificationstate',
                 'align'    => 'center',
                 'type'     => 'options',
