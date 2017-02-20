@@ -33,7 +33,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
         }
 
         if ($orderId) {
-            $this->verifyOrder($orderId);
+            $this->verifyOrder($orderId, true);
         } else {
             $this->_getSession()->addError(
                 Mage::helper('keycash_core')->__(
@@ -258,52 +258,60 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
 
     /**
      * @param int $orderId
+     * @param bool $skipKeycashOrderCheck
      * @return array|string
      */
-    protected function verifyOrder($orderId)
+    protected function verifyOrder($orderId, $skipKeycashOrderCheck = false)
     {
         $result = '';
 
         if (isset($orderId['order_id'])) {
             $orderId = $orderId['order_id'];
-            $data = Mage::getModel('keycash_core/order')
-                ->getApiOrderCreationData($orderId);
+            $keycashOrderExists = false;
 
-            $orderCreationResult = Mage::getModel('keycash_core/apirequest')
-                ->executeOrderCreation($data);
+            if (!$skipKeycashOrderCheck) {
+                $keycashOrder = Mage::getModel('keycash_core/order')
+                    ->loadBySalesOrderId($orderId);
 
-            if (!$orderCreationResult) {
+                $keycashOrderExists = (bool) $keycashOrder->getId();
+            }
+
+            if (!$keycashOrderExists) {
+                $data = Mage::getModel('keycash_core/order')
+                    ->getApiOrderCreationData($orderId);
+
+                $orderCreationResult = Mage::getModel('keycash_core/apirequest')
+                    ->executeOrderCreation($data);
+
+                if (!$orderCreationResult) {
+                    $this->_getSession()->addError(
+                        Mage::helper('keycash_core')->__(
+                            'Could not submit order data to KeyCash.'
+                            . ' If the issue persists, please report it to KeyCash.'
+                        )
+                    );
+
+                    return $result;
+                }
+
+                $keycashOrder = Mage::getModel('keycash_core/order')->setData($orderCreationResult);
+                $keycashOrder->save();
+            }
+        } elseif (isset($orderId['keycash_order_id'])) {
+            $keycashOrder = Mage::getModel('keycash_core/order')
+                ->loadByKeycashOrderId($orderId['keycash_order_id']);
+
+            if (!$keycashOrder->getId()) {
                 $this->_getSession()->addError(
                     Mage::helper('keycash_core')->__(
-                        'Could not submit order data to KeyCash.'
+                        'Could not read order ID.'
                         . ' If the issue persists, please report it to KeyCash.'
                     )
                 );
 
                 return $result;
             }
-
-            $keycashOrderData = $orderCreationResult;
-            $keycashOrderId = $keycashOrderData['keycash_order_id'];
-
-            Mage::getModel('keycash_core/order')->setData($keycashOrderData)->save();
-        } elseif (isset($orderId['keycash_order_id'])) {
-            $keycashOrderId = $orderId['keycash_order_id'];
         }
-
-        if (!$keycashOrderId) {
-            $this->_getSession()->addError(
-                Mage::helper('keycash_core')->__(
-                    'Could not read order ID.'
-                    . ' If the issue persists, please report it to KeyCash.'
-                )
-            );
-
-            return $result;
-        }
-
-        $keycashOrder = Mage::getModel('keycash_core/order')
-            ->loadByKeycashOrderId($keycashOrderId);
 
         if (
             $keycashOrder->getVerificationState() !=
@@ -319,7 +327,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
         }
 
         $result = Mage::getModel('keycash_core/apirequest')
-            ->executeOrderVerification($keycashOrderId);
+            ->executeOrderVerification($keycashOrder->getKeycashOrderId());
 
         if (!$result) {
             $errorMessage = Mage::helper('keycash_core')->__(
@@ -347,9 +355,6 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
 
             $this->_getSession()->addError($errorMessage);
         } else {
-            $keycashOrder = Mage::getModel('keycash_core/order')
-                ->loadByKeycashOrderId($keycashOrderId);
-
             $keycashOrder
                 ->setVerificationState($result['verification_state'])
                 ->setVerificationStatus($result['verification_status'])
