@@ -46,7 +46,8 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_Grid_Column_Renderer_Verification
         if (isset($verificationStates[$status]['icon'])) {
             $html = '<img src="'
                   . $this->getSkinUrl($verificationStates[$status]['icon'])
-                  . '" alt="' . $verificationStates[$status]['label'] . '"/>';
+                  . '" alt="' . $verificationStates[$status]['label']
+                  . '" title="' . $verificationStates[$status]['label'] . '"/>';
         }
 
         return $html;
