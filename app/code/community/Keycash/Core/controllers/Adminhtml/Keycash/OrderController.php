@@ -294,6 +294,9 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
                     return $result;
                 }
 
+                $orderCreationResult['verification_state'] =
+                    Keycash_Core_Model_Source_Order_Verification_State::UNATTEMPTED;
+
                 $keycashOrder = Mage::getModel('keycash_core/order')->setData($orderCreationResult);
                 $keycashOrder->save();
             }
