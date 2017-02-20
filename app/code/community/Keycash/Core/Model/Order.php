@@ -511,7 +511,7 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
      */
     protected function getPriceIntValue($price)
     {
-        return !empty($price) && (int) $price != 0 ? str_replace('.', '', $price) : 0;
+        return !empty($price) && (int) $price != 0 ? str_replace('.', '', abs($price)) : 0;
     }
 
     /**
