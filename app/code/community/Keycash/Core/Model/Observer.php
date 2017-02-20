@@ -161,6 +161,7 @@ class Keycash_Core_Model_Observer
                 'type'     => 'options',
                 'index'    => 'keycash_verification_state',
                 'options'  => Mage::getModel('keycash_core/source_order_verification_state')->getFlatOptions(),
+                'column_css_class' => 'v-middle',
                 'filter_condition_callback' => array($verificationStateFilterBlock, 'filterOrderByVerificationState')
             ), 'real_order_id');
 
