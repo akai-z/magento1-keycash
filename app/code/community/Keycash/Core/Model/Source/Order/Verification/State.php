@@ -21,7 +21,7 @@ class Keycash_Core_Model_Source_Order_Verification_State
      */
     const UNATTEMPTED = 'unattempted';
     const UNVERIFIED = 'unverified';
-    const VERIFIED = 'verified';
+    const VERIFIED = 'complete';
 
     /**
      * @param bool $valueAsKey
