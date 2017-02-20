@@ -71,6 +71,11 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
             $acceptableOrderStatuses
         );
 
+        if (!$this->keycashOrder->getId() && $this->isClosedOrder) {
+            $this->canShowTab = false;
+            return;
+        }
+
         parent::_construct();
         $this->setTemplate('keycash/core/sales/order/view/tab/verification.phtml');
     }
