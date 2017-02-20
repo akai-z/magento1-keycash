@@ -158,6 +158,7 @@ class Keycash_Core_Model_Observer
                 'header'   => $helper->__('Verification Status'),
                 'renderer' => 'keycash_core/adminhtml_sales_order_grid_column_renderer_verificationstate',
                 'align'    => 'center',
+                'width'    => '150px',
                 'type'     => 'options',
                 'index'    => 'keycash_verification_state',
                 'options'  => Mage::getModel('keycash_core/source_order_verification_state')->getFlatOptions(),
