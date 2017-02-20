@@ -249,6 +249,24 @@ class Keycash_Core_Model_Observer
             return;
         }
 
+        $closedOrderStatuses = Mage::getModel(
+            'keycash_core/source_order_status_closed'
+        )->toOptionArray(true);
+
+        $customCanceledOrderStatuses = $helper->getCustomCanceledOrderStatuses();
+        if ($customCanceledOrderStatuses) {
+            $closedOrderStatuses = array_unique(
+                array_merge(
+                    $closedOrderStatuses,
+                    $customCanceledOrderStatuses
+                )
+            );
+        }
+
+        if (in_array($order->getOrigData('status'), $closedOrderStatuses)) {
+            return;
+        }
+
         $orderId = $order->getEntityId();
         $keycashOrder = Mage::getModel('keycash_core/order')
             ->loadBySalesOrderId($orderId);
