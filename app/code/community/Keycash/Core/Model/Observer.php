@@ -127,10 +127,33 @@ class Keycash_Core_Model_Observer
             $keycashOrderTable = Mage::getSingleton('core/resource')
                 ->getTableName('keycash_core/keycash_order');
 
+            $column = $collection->getSelect()->getAdapter()->getConcatSql(
+                array($keycashOrderTable . '.verification_state', $keycashOrderTable . '.verification_status'),
+                '|'
+            );
+
+            $canceledOrderStatuses = Mage::getModel(
+                'keycash_core/source_order_status_closed'
+            )->getUnacceptableStatuses();
+
+            $customCanceledOrderStatuses = Mage::helper('keycash_core')->getCustomCanceledOrderStatuses();
+            if ($customCanceledOrderStatuses) {
+                $canceledOrderStatuses = array_unique(
+                    array_merge(
+                        $canceledOrderStatuses,
+                        $customCanceledOrderStatuses
+                    )
+                );
+            }
+
             $collection->getSelect()->joinLeft(
                 $keycashOrderTable,
-                'main_table.entity_id = ' . $keycashOrderTable . '.sales_order_id',
-                array('keycash_verification_state' => $keycashOrderTable . '.verification_state')
+                $collection->getConnection()->quoteInto(
+                    'main_table.entity_id = ' . $keycashOrderTable . '.sales_order_id'
+                    . ' AND main_table.status NOT IN (?)',
+                    $canceledOrderStatuses
+                ),
+                array('keycash_verification_state' => $column)
             );
         }
     }
@@ -350,7 +373,7 @@ class Keycash_Core_Model_Observer
         $ordersToUpdate = array();
         $apiRequestModel = Mage::getModel('keycash_core/apirequest');
         $verificationStateFilter = array(
-            'neq' => Keycash_Core_Model_Source_Order_Verification_State::UNATTEMPTED
+            'neq' => Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
         );
 
         $keycashOrderCollection = Mage::getModel('keycash_core/order')->getCollection()

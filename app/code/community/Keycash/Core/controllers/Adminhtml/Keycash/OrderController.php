@@ -177,7 +177,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
         }
         if (
             $order->getVerificationState() ==
-            Keycash_Core_Model_Source_Order_Verification_State::UNATTEMPTED
+            Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
         ) {
             $this->_getSession()->addError(
                 Mage::helper('keycash_core')->__(
@@ -295,7 +295,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
                 }
 
                 $orderCreationResult['verification_state'] =
-                    Keycash_Core_Model_Source_Order_Verification_State::UNATTEMPTED;
+                    Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED;
 
                 $keycashOrder = Mage::getModel('keycash_core/order')->setData($orderCreationResult);
                 $keycashOrder->save();
@@ -318,7 +318,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
 
         if (
             $keycashOrder->getVerificationState() !=
-            Keycash_Core_Model_Source_Order_Verification_State::UNATTEMPTED
+            Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
         ) {
             $this->_getSession()->addError(
                 Mage::helper('keycash_core')->__(

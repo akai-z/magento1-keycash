@@ -171,7 +171,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
             if (
                 $this->keycashOrder->getIsVerified()
                 || $this->keycashOrder->getVerificationState() ==
-                Keycash_Core_Model_Source_Order_Verification_State::UNATTEMPTED
+                Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
             ) {
                 return false;
             } else {
@@ -207,7 +207,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
             if (
                 $this->keycashOrder->getIsVerified()
                 || $this->keycashOrder->getVerificationState() !=
-                Keycash_Core_Model_Source_Order_Verification_State::UNATTEMPTED
+                Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
             ) {
                 return false;
             } else {

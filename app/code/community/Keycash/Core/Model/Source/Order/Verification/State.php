@@ -19,9 +19,10 @@ class Keycash_Core_Model_Source_Order_Verification_State
     /**
      * Verification state codes
      */
-    const UNATTEMPTED = 'unattempted';
-    const UNVERIFIED = 'unverified';
-    const VERIFIED = 'complete';
+     const NOT_DISPATCHED = 'not_dispatched';
+     const IN_PROGRESS = 'in_progress';
+     const ERROR = 'error';
+     const VERIFIED = 'complete';
 
     /**
      * @param bool $valueAsKey
@@ -33,8 +34,19 @@ class Keycash_Core_Model_Source_Order_Verification_State
 
         $options = array(
             array(
-                'value' => self::UNVERIFIED,
-                'label' => $helper->__('Unverified')
+                'value' => self::NOT_DISPATCHED,
+                'label' => $helper->__('Not Dispatched'),
+                'icon' => 'keycash/core/images/not_dispatched.png'
+            ),
+            array(
+                'value' => self::IN_PROGRESS,
+                'label' => $helper->__('In Progress'),
+                'icon' => 'keycash/core/images/in_progress.png'
+            ),
+            array(
+                'value' => self::ERROR,
+                'label' => $helper->__('Error'),
+                'icon' => 'keycash/core/images/error.png'
             ),
             array(
                 'value' => self::VERIFIED,
