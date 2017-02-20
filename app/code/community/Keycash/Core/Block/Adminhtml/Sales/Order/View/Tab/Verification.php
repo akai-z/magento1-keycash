@@ -128,7 +128,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
 
             $verificationState = reset($verificationStates);
         } else {
-            $verificationState = ucfirst($verificationState);
+            $verificationState = ucwords(str_replace('_', ' ', $verificationState));
         }
 
         $data[] = array(
