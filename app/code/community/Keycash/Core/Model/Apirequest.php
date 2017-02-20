@@ -477,10 +477,9 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
                     $data['verification_state'] = $includedDataAttributes['state'];
                     $data['verification_status'] = $includedDataAttributes['status'];
                     $data['verification_strategy'] = $includedDataAttributes['strategy'];
-
-                    if ($data['is_verified']) {
-                        $data['verification_date'] = $includedDataAttributes['updated_at'];
-                    }
+                    $data['verification_date'] = $data['is_verified']
+                        ? $includedDataAttributes['updated_at']
+                        : null;
 
                     break;
                 }
