@@ -189,8 +189,7 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
                 array('order_payment' => $resource->getTableName('sales/order_payment')),
                 'main_table.entity_id = order_payment.parent_id',
                 $orderCollectionAttributes['order_payment']
-            )
-            ->where('main_table.status NOT IN (?)', $closedOrderStatuses);
+            );
 
         if ($isUpdate) {
             $orderCollection->getSelect()->join(
@@ -199,12 +198,14 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
                 $orderCollectionAttributes['keycash_order']
             );
         } else {
-            $orderCollection->getSelect()->joinLeft(
-                array('keycash_order' => $resource->getTableName('keycash_core/keycash_order')),
-                'main_table.entity_id = keycash_order.sales_order_id',
-                $orderCollectionAttributes['keycash_order']
-            )
-            ->where('keycash_order.sales_order_id IS NULL');
+            $orderCollection->getSelect()
+                ->joinLeft(
+                    array('keycash_order' => $resource->getTableName('keycash_core/keycash_order')),
+                    'main_table.entity_id = keycash_order.sales_order_id',
+                    $orderCollectionAttributes['keycash_order']
+                )
+                ->where('keycash_order.sales_order_id IS NULL')
+                ->where('main_table.status NOT IN (?)', $closedOrderStatuses);
         }
 
         if ($orderIds) {
@@ -511,7 +512,7 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
      */
     protected function getPriceIntValue($price)
     {
-        return !empty($price) && (int) $price != 0 ? str_replace('.', '', $price) : 0;
+        return !empty($price) && (int) $price != 0 ? str_replace('.', '', abs($price)) : 0;
     }
 
     /**

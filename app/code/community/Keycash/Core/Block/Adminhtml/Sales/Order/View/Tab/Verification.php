@@ -71,6 +71,11 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
             $acceptableOrderStatuses
         );
 
+        if (!$this->keycashOrder->getId() && $this->isClosedOrder) {
+            $this->canShowTab = false;
+            return;
+        }
+
         parent::_construct();
         $this->setTemplate('keycash/core/sales/order/view/tab/verification.phtml');
     }
@@ -123,7 +128,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
 
             $verificationState = reset($verificationStates);
         } else {
-            $verificationState = ucfirst($verificationState);
+            $verificationState = ucwords(str_replace('_', ' ', $verificationState));
         }
 
         $data[] = array(
@@ -166,7 +171,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
             if (
                 $this->keycashOrder->getIsVerified()
                 || $this->keycashOrder->getVerificationState() ==
-                Keycash_Core_Model_Source_Order_Verification_State::UNATTEMPTED
+                Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
             ) {
                 return false;
             } else {
@@ -202,7 +207,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
             if (
                 $this->keycashOrder->getIsVerified()
                 || $this->keycashOrder->getVerificationState() !=
-                Keycash_Core_Model_Source_Order_Verification_State::UNATTEMPTED
+                Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
             ) {
                 return false;
             } else {

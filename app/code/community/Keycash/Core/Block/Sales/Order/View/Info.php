@@ -62,7 +62,7 @@ class Keycash_Core_Block_Sales_Order_View_Info extends Mage_Core_Block_Template
 
             $verificationState = reset($verificationStates);
         } else {
-            $verificationState = ucfirst($verificationState);
+            $verificationState = ucwords(str_replace('_', ' ', $verificationState));
         }
 
         return $verificationState;

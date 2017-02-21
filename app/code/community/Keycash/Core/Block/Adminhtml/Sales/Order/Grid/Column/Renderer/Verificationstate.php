@@ -39,14 +39,18 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_Grid_Column_Renderer_Verification
             return $html;
         }
 
+        $status = explode('|', $status);
+
         $verificationStates = Mage::getModel(
             'keycash_core/source_order_verification_state'
         )->toOptionArray(true);
 
-        if (isset($verificationStates[$status]['icon'])) {
+        if (isset($verificationStates[$status[0]]['icon'])) {
+            $label = !empty($status[1]) ? $status[1] : $verificationStates[$status[0]]['label'];
             $html = '<img src="'
-                  . $this->getSkinUrl($verificationStates[$status]['icon'])
-                  . '" alt="' . $verificationStates[$status]['label'] . '"/>';
+                  . $this->getSkinUrl($verificationStates[$status[0]]['icon'])
+                  . '" alt="' . $label
+                  . '" title="' . $label . '"/>';
         }
 
         return $html;

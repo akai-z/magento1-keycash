@@ -40,22 +40,15 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_Grid_Column_Filter_Verificationst
         )->getFlatOptions();
 
         if (!isset($verificationStates[$value])) {
-            $value = Keycash_Core_Model_Source_Order_Verification_State::UNVERIFIED;
+            $value = Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED;
         }
 
         $keycashOrderTable = Mage::getSingleton('core/resource')
             ->getTableName('keycash_core/keycash_order');
 
-        if ($value == Keycash_Core_Model_Source_Order_Verification_State::VERIFIED) {
-            $collection->getSelect()->where(
-                $keycashOrderTable . '.verification_state = ?', $value
-            );
-        } else {
-            $collection->getSelect()->where(
-                $keycashOrderTable . '.verification_state <> ?',
-                Keycash_Core_Model_Source_Order_Verification_State::VERIFIED
-            );
-        }
+        $collection->getSelect()->where(
+            $keycashOrderTable . '.verification_state = ?', $value
+        );
 
         $canceledOrderStatuses = Mage::getModel(
             'keycash_core/source_order_status_closed'
