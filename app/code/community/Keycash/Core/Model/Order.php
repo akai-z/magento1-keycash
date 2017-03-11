@@ -232,28 +232,22 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
             $orderCollection->getSelect()->where('order_shipping_address.country_id IN (?)', $shippingCountriesFilter);
         }
 
+        $orderItemCollection = Mage::getModel('sales/order_item')->getCollection();
+
+        $orderItemCollection->getSelect()
+            ->reset(Zend_Db_Select::COLUMNS)
+            ->columns($orderCollectionAttributes['order_item']);
+
+        $orderItemCollection->getSelect()->join(
+            array('sales_order' => $orderCollection->getSelect()),
+            'main_table.order_id = sales_order.entity_id'
+        );
+
+        $orderCollection = $orderItemCollection;
+
         $ordersLimit = $helper->getSendOrdersLimit();
         if ($ordersLimit) {
             $orderCollection->getSelect()->limit($ordersLimit);
-
-            $orderFullCollection = Mage::getModel('sales/order_item')->getCollection();
-
-            $orderFullCollection->getSelect()
-                ->reset(Zend_Db_Select::COLUMNS)
-                ->columns($orderCollectionAttributes['order_item']);
-
-            $orderFullCollection->getSelect()->join(
-                array('sales_order' => $orderCollection->getSelect()),
-                'main_table.order_id = sales_order.entity_id'
-            );
-
-            $orderCollection = $orderFullCollection;
-        } else {
-            $ordersCollection->getSelect()->join(
-                array('order_item' => $resource->getTableName('sales/order_item')),
-                'main_table.entity_id = order_item.order_id',
-                $orderCollectionAttributes['order_item']
-            );
         }
 
         return $orderCollection;
