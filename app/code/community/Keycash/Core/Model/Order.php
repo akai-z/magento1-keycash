@@ -180,10 +180,20 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
                 $orderCollectionAttributes['order_billing_address']
             )
             ->join(
+                array('order_billing_country' => $resource->getTableName('directory/country')),
+                'order_billing_address.country_id = order_billing_country.iso2_code',
+                $orderCollectionAttributes['order_billing_country']
+            )
+            ->join(
                 array('order_shipping_address' => $resource->getTableName('sales/order_address')),
                 'main_table.entity_id = order_shipping_address.parent_id'
                 . ' AND main_table.shipping_address_id = order_shipping_address.entity_id',
                 $orderCollectionAttributes['order_shipping_address']
+            )
+            ->join(
+                array('order_shipping_country' => $resource->getTableName('directory/country')),
+                'order_billing_address.country_id = order_shipping_country.iso2_code',
+                $orderCollectionAttributes['order_shipping_country']
             )
             ->join(
                 array('order_payment' => $resource->getTableName('sales/order_payment')),
@@ -279,8 +289,10 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
                 'order_billing_email' => 'email',
                 'order_billing_phone' => 'telephone',
                 'order_billing_address' => 'street',
-                'order_billing_postal_code' => 'postcode',
-                'order_billing_country' => 'country_id',
+                'order_billing_postal_code' => 'postcode'
+            ),
+            'order_billing_country' => array(
+                'order_billing_country' => 'iso3_code'
             ),
             'order_shipping_address' => array(
                 'order_shipping_firstname' => 'firstname',
@@ -288,8 +300,10 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
                 'order_shipping_email' => 'email',
                 'order_shipping_phone' => 'telephone',
                 'order_shipping_address' => 'street',
-                'order_shipping_postal_code' => 'postcode',
-                'order_shipping_country' => 'country_id'
+                'order_shipping_postal_code' => 'postcode'
+            ),
+            'order_shipping_country' => array(
+                'order_shipping_country' => 'iso3_code'
             ),
             'order_payment' => array(
                 'payment_method' => 'method'
@@ -411,8 +425,6 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
     {
         $orderBillingAddressContactName = $order->getOrderBillingFirstname()
             . ' ' . $order->getOrderBillingLastname();
-        $country = Mage::getModel('directory/country')->loadByCode($order->getOrderBillingCountry());
-        $countryCode = $country->getIso3Code();
 
         $data = array(
             'billing_contact' => array(
@@ -427,7 +439,7 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
                 'address_line_4' => '',
                 'address_line_5' => '',
                 'postal_code' => $order->getOrderBillingPostalCode(),
-                'country_code' => $countryCode,
+                'country_code' => $order->getOrderBillingCountry()
             )
         );
 
@@ -442,8 +454,6 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
     {
         $orderShippingAddressContactName = $order->getOrderShippingFirstname()
             . ' ' . $order->getOrderShippingLastname();
-        $country = Mage::getModel('directory/country')->loadByCode($order->getOrderShippingCountry());
-        $countryCode = $country->getIso3Code();
 
         $data = array(
             'shipping_contact' => array(
@@ -458,7 +468,7 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
                 'address_line_4' => '',
                 'address_line_5' => '',
                 'postal_code' => $order->getOrderShippingPostalCode(),
-                'country_code' => $countryCode,
+                'country_code' => $order->getOrderShippingCountry()
             )
         );
 
