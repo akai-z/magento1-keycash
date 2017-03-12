@@ -186,6 +186,9 @@
                 <custom_canceled_order_status>canceled,fraud</custom_canceled_order_status>
                 <send_orders_limit>50</send_orders_limit>
             </key_verify>
+            <cron_heartbeat>
+                <interval>1440</interval>
+            </cron_heartbeat>
         </keycash>
     </default>
 </config>

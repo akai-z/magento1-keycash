@@ -41,11 +41,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     const XML_PATH_CRON_HEARTBEAT = 'keycash/cron_heartbeat/tick';
     const XML_PATH_CRON_HEARTBEAT_WARNING_NOTIFICATION = 'keycash/cron_heartbeat/warning_notification';
-
-    /**
-     * Cron heartbeat interval
-     */
-    const CRON_HEARTBEAT_INTERVAL = 86400; // 24 hours
+    const XML_PATH_CRON_HEARTBEAT_INTERVAL = 'keycash/cron_heartbeat/interval';
 
     /**
      * KeyCash default log file name
@@ -212,11 +208,15 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Retrieves cron heartbeat interval in seconds
+     * (from minutes converted to seconds)
+     *
      * @return int
      */
     public function getCronHeartbeatInterval()
     {
-        return self::CRON_HEARTBEAT_INTERVAL;
+        $interval = (int) Mage::getStoreConfig(self::XML_PATH_CRON_HEARTBEAT_INTERVAL);
+        return $interval * 60;
     }
 
     /**
