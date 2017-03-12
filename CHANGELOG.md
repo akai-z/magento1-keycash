@@ -1,6 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.2.1](https://github.com/keycash/magento1-keycash/tree/0.2.1) - 2017-03-12
+[Full Changelog](https://github.com/keycash/magento1-keycash/compare/0.2.0...0.2.1)
+
+**Added**
+* Config option for cron heartbeat interval.
+
+**Changed**
+* Improve orders addresses countries ISO code conversion.
+* Cron heartbeat notification message.
+
+**Fixed**
+* Order model getSalesOrderCollection method limit issue.
+
 ## [0.2.0](https://github.com/keycash/magento1-keycash/tree/0.2.0) - 2017-02-21
 [Full Changelog](https://github.com/keycash/magento1-keycash/compare/0.1.0...0.2.0)
 
