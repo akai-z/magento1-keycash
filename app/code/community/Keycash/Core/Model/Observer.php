@@ -51,10 +51,18 @@ class Keycash_Core_Model_Observer
             }
         }
 
+        $notificationTitle = $helper->__('KeyCash scheduled tasks seem to be inactive');
+        $notificationDescription = $helper->__(
+            'Please make sure that Cron is running.'
+            . ' If it is running,'
+            . ' this message will disappear later when KeyCash scheduled monitoring task is executed again.'
+            . ' Or, you could just remove it manually.'
+        );
+
         $notificationModel = Mage::getModel('adminnotification/inbox');
         $notificationModel->addMajor(
-            $helper->__('KeyCash service is inactive'),
-            $helper->__('KeyCash service is inactive, please make sure that Cron is running.'),
+            $notificationTitle,
+            $notificationDescription,
             Mage::helper('adminhtml')->getUrl('adminhtml/notification/index', array('_secure' => true))
         );
 
