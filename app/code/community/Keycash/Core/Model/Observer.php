@@ -371,6 +371,61 @@ class Keycash_Core_Model_Observer
         }
     }
 
+    public function verifyOrders()
+    {
+        $helper = Mage::helper('keycash_core');
+
+        if (
+            !$helper->isEnabled()
+            || !$helper->isSendOrdersEnabled()
+            || !$helper->isAutoOrderVerificationEnabled()
+        ) {
+            return;
+        }
+
+        $ordersToUpdate = array();
+        $apiRequestModel = Mage::getModel('keycash_core/apirequest');
+        $verificationStateFilter = array(
+            'eq' => Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
+        );
+
+        $keycashOrderCollection = Mage::getModel('keycash_core/order')->getCollection()
+            ->addFieldToSelect('sales_order_id')
+            ->addFieldToSelect('keycash_order_id')
+            ->addFieldToSelect('increment_id')
+            ->addFieldToSelect('is_verified')
+            ->addFieldToFilter('is_verified', 0)
+            ->addFieldToFilter('verification_state', $verificationStateFilter);
+
+        $ordersLimit = $helper->getSendOrdersLimit();
+        if ($ordersLimit) {
+            $keycashOrderCollection->getSelect()->limit($ordersLimit);
+        }
+
+        foreach ($keycashOrderCollection as $order) {
+            $orderData = $apiRequestModel->executeOrderVerification(
+                $order->getKeycashOrderId()
+            );
+
+            if (
+                !$orderData
+                || (isset($orderData['status']) && !$orderData['status'])
+            ) {
+                continue;
+            }
+
+            $orderData['sales_order_id'] = $order->getSalesOrderId();
+            $orderData['increment_id'] = $order->getIncrementId();
+
+            $ordersToUpdate[$order->getKeycashOrderId()] = $orderData;
+        }
+
+        if ($ordersToUpdate) {
+            Mage::getModel('keycash_core/resource_order')
+                ->insertMultiple($ordersToUpdate, true);
+        }
+    }
+
     public function updateKeycashOrdersVerificationStatus()
     {
         $helper = Mage::helper('keycash_core');

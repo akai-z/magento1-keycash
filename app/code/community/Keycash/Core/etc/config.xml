@@ -162,6 +162,14 @@
                     <model>keycash_core/observer::createKeycashOrders</model>
                 </run>
             </keycash_create_orders>
+            <keycash_verify_orders>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>keycash_core/observer::verifyOrders</model>
+                </run>
+            </keycash_verify_orders>
             <keycash_update_orders_verification_status>
                 <schedule>
                     <cron_expr>*/10 * * * *</cron_expr>
