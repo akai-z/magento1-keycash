@@ -14,9 +14,11 @@
  * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Model_System_Config_Source_Payment_Allmethods
     extends Mage_Adminhtml_Model_System_Config_Source_Payment_Allmethods
 {
+    // @codingStandardsIgnoreEnd
     /**
      * @return array
      */

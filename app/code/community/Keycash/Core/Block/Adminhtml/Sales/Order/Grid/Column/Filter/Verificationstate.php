@@ -21,11 +21,16 @@
  * @category    Keycash
  * @package     Keycash_Core
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Block_Adminhtml_Sales_Order_Grid_Column_Filter_Verificationstate
     extends Mage_Adminhtml_Block_Abstract
 {
+    // @codingStandardsIgnoreEnd
     /**
     * Order filter condition callback
+    *
+    * @todo move data access related code to a resource model
+    * @codingStandardsIgnoreStart
     *
     * @param Mage_Sales_Model_Resource_Order_Grid_Collection $collection
     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
@@ -73,4 +78,5 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_Grid_Column_Filter_Verificationst
 
         return $collection;
     }
+    // @codingStandardsIgnoreEnd
 }

@@ -14,8 +14,10 @@
  * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+ // @codingStandardsIgnoreStart
 class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Controller_Action
 {
+    // @codingStandardsIgnoreEnd
     /**
      * Order verification action
      */
@@ -56,8 +58,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
             $helper = Mage::helper('keycash_core');
             $verificationLimit = $helper->getSendOrdersLimit();
 
-            if (
-                $verificationLimit
+            if ($verificationLimit
                 && (count($orderIds) > $helper->getSendOrdersLimit())
             ) {
                 $this->_getSession()->addError(
@@ -71,6 +72,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
                 return;
             }
 
+            // TODO get rid of duplicate code
             $closedOrderStatuses = Mage::getModel(
                 'keycash_core/source_order_status_closed'
             )->toOptionArray(true);
@@ -175,8 +177,8 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
             $this->_redirectReferer();
             return;
         }
-        if (
-            $order->getVerificationState() ==
+
+        if ($order->getVerificationState() ==
             Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
         ) {
             $this->_getSession()->addError(
@@ -189,6 +191,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
             $this->_redirectReferer();
             return;
         }
+
         if ($order->getIsVerified()) {
             $this->_getSession()->addError(
                 Mage::helper('keycash_core')->__(
@@ -257,6 +260,9 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
     }
 
     /**
+     * @todo refactor method as its cyclomatic complexity exceeds the limit
+     * @codingStandardsIgnoreStart
+     *
      * @param int $orderId
      * @param bool $skipKeycashOrderCheck
      * @return array|string
@@ -316,8 +322,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
             }
         }
 
-        if (
-            $keycashOrder->getVerificationState() !=
+        if ($keycashOrder->getVerificationState() !=
             Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
         ) {
             $this->_getSession()->addError(
@@ -373,6 +378,7 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
 
         return $result;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Checks whether action access is allowed
@@ -408,7 +414,6 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
                 } else {
                     $aclResource = '';
                 }
-
                 break;
             case 'massverify':
                 if (Mage::helper('keycash_core')->isSendOrdersEnabled()) {
@@ -416,7 +421,6 @@ class Keycash_Core_Adminhtml_Keycash_OrderController extends Mage_Adminhtml_Cont
                 } else {
                     $aclResource = '';
                 }
-
                 break;
         }
 

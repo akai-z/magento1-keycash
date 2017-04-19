@@ -21,12 +21,14 @@
  * @category    Keycash
  * @package     Keycash_Core
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Block_Sales_Order_View_Info extends Mage_Core_Block_Template
 {
     /**
      * @var Keycash_Core_Model_Order
      */
     protected $keycashOrder;
+    // @codingStandardsIgnoreEnd
 
     protected function _construct()
     {

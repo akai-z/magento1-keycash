@@ -14,8 +14,11 @@
  * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Model_Resource_Apirequest_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
+    // @codingStandardsIgnoreEnd
+
     protected function _construct()
     {
         $this->_init('keycash_core/apirequest');

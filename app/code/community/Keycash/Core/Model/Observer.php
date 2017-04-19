@@ -14,15 +14,15 @@
  * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Model_Observer
 {
+    // @codingStandardsIgnoreEnd
     /**
      * Checks the last time a cron job has been run,
      * and adds a notification if it has not been run for a long time.
-     *
-     * @param Varien_Event_Observer $observer
      */
-    public function checkCronHeartbeatStatus(Varien_Event_Observer $observer)
+    public function checkCronHeartbeatStatus()
     {
         $helper = Mage::helper('keycash_core');
         if (!$helper->isEnabled()) {
@@ -72,10 +72,8 @@ class Keycash_Core_Model_Observer
 
     /**
      * Updates stored server public IP
-     *
-     * @param Varien_Event_Observer $observer
      */
-    public function updatePublicIp(Varien_Event_Observer $observer)
+    public function updatePublicIp()
     {
         $helper = Mage::helper('keycash_core');
         $ip = Mage::helper('core/http')->getServerAddr();
@@ -154,6 +152,8 @@ class Keycash_Core_Model_Observer
                 );
             }
 
+            // TODO move data access related code to a resource model
+            // @codingStandardsIgnoreStart
             $collection->getSelect()->joinLeft(
                 $keycashOrderTable,
                 $collection->getConnection()->quoteInto(
@@ -163,6 +163,7 @@ class Keycash_Core_Model_Observer
                 ),
                 array('keycash_verification_state' => $column)
             );
+            // @codingStandardsIgnoreEnd
         }
     }
 
@@ -185,7 +186,7 @@ class Keycash_Core_Model_Observer
             $verificationStateFilterBlock =
                 'Keycash_Core_Block_Adminhtml_Sales_Order_Grid_Column_Filter_Verificationstate';
 
-            $block->addColumnAfter('keycash_verification_state', array(
+            $keycashVerificationStateColumnData = array(
                 'header'   => $helper->__('Verification Status'),
                 'renderer' => 'keycash_core/adminhtml_sales_order_grid_column_renderer_verificationstate',
                 'align'    => 'center',
@@ -195,7 +196,13 @@ class Keycash_Core_Model_Observer
                 'options'  => Mage::getModel('keycash_core/source_order_verification_state')->getFlatOptions(),
                 'column_css_class' => 'v-middle',
                 'filter_condition_callback' => array($verificationStateFilterBlock, 'filterOrderByVerificationState')
-            ), 'real_order_id');
+            );
+
+            $block->addColumnAfter(
+                'keycash_verification_state',
+                $keycashVerificationStateColumnData,
+                'real_order_id'
+            );
 
             $block->sortColumnsByOrder();
         }
@@ -217,18 +224,22 @@ class Keycash_Core_Model_Observer
             return;
         }
 
-        if(
-            $block->getType() == 'adminhtml/widget_grid_massaction'
+        if ($block->getType() == 'adminhtml/widget_grid_massaction'
             && $block->getRequest()->getControllerName() == 'sales_order'
         ) {
-            $block->addItem('keycash_verify_order', array(
-                'label' => $helper->__('Verify with KeyCash'),
-                'url' => $block->getUrl('*/keycash_order/massverify')
-            ));
+            $block->addItem(
+                'keycash_verify_order',
+                array(
+                    'label' => $helper->__('Verify with KeyCash'),
+                    'url' => $block->getUrl('*/keycash_order/massverify')
+                )
+            );
         }
     }
 
     /**
+     * @todo refactor method
+     *
      * @param Varien_Event_Observer $observer
      */
     public function updateKeycashOrderStatus(Varien_Event_Observer $observer)
@@ -280,6 +291,7 @@ class Keycash_Core_Model_Observer
             return;
         }
 
+        // TODO get rid of duplicate code
         $closedOrderStatuses = Mage::getModel(
             'keycash_core/source_order_status_closed'
         )->toOptionArray(true);
@@ -306,8 +318,7 @@ class Keycash_Core_Model_Observer
             return;
         }
 
-        if (
-            $order->getOrigData('state') != $order->getState()
+        if ($order->getOrigData('state') != $order->getState()
             || $order->getOrigData('status') != $order->getStatus()
         ) {
             $apiRequestModel = Mage::getModel('keycash_core/apirequest');
@@ -375,8 +386,7 @@ class Keycash_Core_Model_Observer
     {
         $helper = Mage::helper('keycash_core');
 
-        if (
-            !$helper->isEnabled()
+        if (!$helper->isEnabled()
             || !$helper->isSendOrdersEnabled()
             || !$helper->isAutoOrderVerificationEnabled()
         ) {
@@ -399,7 +409,10 @@ class Keycash_Core_Model_Observer
 
         $ordersLimit = $helper->getSendOrdersLimit();
         if ($ordersLimit) {
+            // TODO move data access related code to a resource model
+            // @codingStandardsIgnoreStart
             $keycashOrderCollection->getSelect()->limit($ordersLimit);
+            // @codingStandardsIgnoreEnd
         }
 
         foreach ($keycashOrderCollection as $order) {
@@ -407,8 +420,7 @@ class Keycash_Core_Model_Observer
                 $order->getKeycashOrderId()
             );
 
-            if (
-                !$orderData
+            if (!$orderData
                 || (isset($orderData['status']) && !$orderData['status'])
             ) {
                 continue;
@@ -449,7 +461,10 @@ class Keycash_Core_Model_Observer
 
         $ordersLimit = $helper->getSendOrdersLimit();
         if ($ordersLimit) {
+            // TODO move data access related code to a resource model
+            // @codingStandardsIgnoreStart
             $keycashOrderCollection->getSelect()->limit($ordersLimit);
+            // @codingStandardsIgnoreEnd
         }
 
         foreach ($keycashOrderCollection as $order) {
@@ -465,8 +480,7 @@ class Keycash_Core_Model_Observer
             $verificationStateFlag = isset($orderData['verification_state'])
                 && ($order->getVerificationState() != $orderData['verification_state']);
 
-            if (
-                $verificationStateFlag
+            if ($verificationStateFlag
                 || ($order->getisVerified() != $orderData['is_verified'])
             ) {
                 $orderData['sales_order_id'] = $order->getSalesOrderId();
@@ -492,10 +506,16 @@ class Keycash_Core_Model_Observer
             return;
         }
 
-        $apiRequestCollection = Mage::getModel('keycash_core/apirequest')->getCollection();
-        foreach ($apiRequestCollection as $apiRequest) {
+        $requestsToDelete = array();
+        $apiRequestModel = Mage::getModel('keycash_core/apirequest');
+
+        foreach ($apiRequestModel->getCollection() as $apiRequest) {
             $apiRequest->runScheduledRequest();
-            $apiRequest->delete();
+            $requestsToDelete[] = $apiRequest->getRequestId();
+        }
+
+        if ($requestsToDelete) {
+            $apiRequestModel->getResource()->delete($requestsToDelete);
         }
     }
 }

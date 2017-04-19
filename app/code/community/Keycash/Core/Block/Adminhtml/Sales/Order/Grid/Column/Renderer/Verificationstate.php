@@ -21,9 +21,11 @@
  * @category    Keycash
  * @package     Keycash_Core
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Block_Adminhtml_Sales_Order_Grid_Column_Renderer_Verificationstate
     extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Input
 {
+    // @codingStandardsIgnoreEnd
     /**
      * Renders grid column
      *

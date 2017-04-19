@@ -21,6 +21,7 @@
  * @category    Keycash
  * @package     Keycash_Core
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
     extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
@@ -41,6 +42,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
      * @var bool
      */
     protected $isClosedOrder = false;
+    // @codingStandardsIgnoreEnd
 
     protected function _construct()
     {
@@ -142,12 +144,14 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
                 'value' => $order->getVerificationStatus()
             );
         }
+
         if ($order->getVerificationStrategy()) {
             $data[] = array(
                 'label' => $helper->__('Verification Strategy'),
                 'value' => ucfirst($order->getVerificationStrategy())
             );
         }
+
         if ($order->getVerificationDate()) {
             $data[] = array(
                 'label' => $helper->__('Verification Date'),
@@ -168,8 +172,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         }
 
         if ($this->keycashOrder->getId()) {
-            if (
-                $this->keycashOrder->getIsVerified()
+            if ($this->keycashOrder->getIsVerified()
                 || $this->keycashOrder->getVerificationState() ==
                 Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
             ) {
@@ -204,8 +207,7 @@ class Keycash_Core_Block_Adminhtml_Sales_Order_View_Tab_Verification
         }
 
         if ($this->keycashOrder->getId()) {
-            if (
-                $this->keycashOrder->getIsVerified()
+            if ($this->keycashOrder->getIsVerified()
                 || $this->keycashOrder->getVerificationState() !=
                 Keycash_Core_Model_Source_Order_Verification_State::NOT_DISPATCHED
             ) {

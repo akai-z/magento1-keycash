@@ -14,8 +14,10 @@
  * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    // @codingStandardsIgnoreEnd
     /**
      * Config general XML paths
      */
@@ -263,9 +265,12 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
             ->getCollection()
             ->addFieldToFilter('path', $path);
 
+        // TODO get rid of getFirstItem method
+        // @codingStandardsIgnoreStart
         return $configDataCollection->getSize()
             ? $configDataCollection->getFirstItem()->getValue()
             : null;
+        // @codingStandardsIgnoreEnd
     }
 
     /**
