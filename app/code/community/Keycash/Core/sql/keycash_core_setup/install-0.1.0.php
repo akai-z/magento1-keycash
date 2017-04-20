@@ -11,11 +11,13 @@
  *
  * @category    Keycash
  * @package     Keycash_Core
- * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* @var $installer Mage_Core_Model_Resource_Setup */
+/**
+ * @var $installer Mage_Core_Model_Resource_Setup
+ */
 $installer = $this;
 $installer->startSetup();
 
@@ -33,39 +35,92 @@ Mage::helper('keycash_core')->setPublicIp(
  */
 $orderVerificationTable = $installer->getConnection()
     ->newTable($keycashOrderTableFullName)
-    ->addColumn('order_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity' => true,
-        'unsigned' => true,
-        'nullable' => false,
-        'primary'  => true
-    ), 'KeyCash Order ID')
-    ->addColumn('sales_order_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'nullable' => false
-    ), 'Sales Order ID')
-    ->addColumn('keycash_order_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'nullable' => false
-    ), 'KeyCash API Order ID')
-    ->addColumn('increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        'nullable' => false
-    ), 'Sales Order Increment ID')
-    ->addColumn('verification_state', Varien_Db_Ddl_Table::TYPE_TEXT, 128, array(
-        'nullable' => true,
-        'default' => 'unattempted'
-    ), 'Order Verification State')
-    ->addColumn('verification_status', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable' => true
-    ), 'Order Verification Status')
-    ->addColumn('verification_strategy', Varien_Db_Ddl_Table::TYPE_TEXT, 128, array(
-        'nullable'  => true
-    ), 'Order Verification Strategy')
-    ->addColumn('verification_date', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => true
-    ), 'Order Verification Date')
-    ->addColumn('is_verified', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'unsigned' => true,
-        'nullable' => false,
-        'default'   => '0'
-    ), 'Is Order Verified')
+    ->addColumn(
+        'order_id',
+        Varien_Db_Ddl_Table::TYPE_INTEGER, null,
+        array(
+            'identity' => true,
+            'unsigned' => true,
+            'nullable' => false,
+            'primary'  => true
+        ),
+        'KeyCash Order ID'
+    )
+    ->addColumn(
+        'sales_order_id',
+        Varien_Db_Ddl_Table::TYPE_INTEGER,
+        null,
+        array(
+            'nullable' => false
+        ),
+        'Sales Order ID'
+    )
+    ->addColumn(
+        'keycash_order_id',
+        Varien_Db_Ddl_Table::TYPE_INTEGER,
+        null,
+        array(
+            'nullable' => false
+        ),
+        'KeyCash API Order ID'
+    )
+    ->addColumn(
+        'increment_id',
+        Varien_Db_Ddl_Table::TYPE_TEXT,
+        50,
+        array(
+            'nullable' => false
+        ),
+        'Sales Order Increment ID'
+    )
+    ->addColumn(
+        'verification_state',
+        Varien_Db_Ddl_Table::TYPE_TEXT,
+        128,
+        array(
+            'nullable' => true,
+            'default' => 'unattempted'
+        ),
+        'Order Verification State'
+    )
+    ->addColumn(
+        'verification_status',
+        Varien_Db_Ddl_Table::TYPE_TEXT,
+        255,
+        array(
+            'nullable' => true
+        ),
+        'Order Verification Status'
+    )
+    ->addColumn(
+        'verification_strategy',
+        Varien_Db_Ddl_Table::TYPE_TEXT,
+        128,
+        array(
+            'nullable'  => true
+        ),
+        'Order Verification Strategy'
+    )
+    ->addColumn(
+        'verification_date',
+        Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
+        null,
+        array(
+            'nullable'  => true
+        ),
+        'Order Verification Date'
+    )
+    ->addColumn(
+        'is_verified',
+        Varien_Db_Ddl_Table::TYPE_SMALLINT,
+        null,
+        array(
+            'unsigned' => true,
+            'nullable' => false,
+            'default'   => '0'
+        ),
+        'Is Order Verified'
+    )
     ->addIndex(
         $installer->getIdxName(
             $keycashOrderTableName,
@@ -107,18 +162,36 @@ $installer->getConnection()->createTable($orderVerificationTable);
  */
 $scheduledKeyVerifyApiRequestsTable = $installer->getConnection()
     ->newTable($scheduledKeyVerifyApiRequestsTableName)
-    ->addColumn('request_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity' => true,
-        'unsigned' => true,
-        'nullable' => false,
-        'primary'  => true
-    ), 'Request ID')
-    ->addColumn('request_name', Varien_Db_Ddl_Table::TYPE_VARCHAR, 128, array(
-        'nullable' => false
-    ), 'Request Name')
-    ->addColumn('request_data', Varien_Db_Ddl_Table::TYPE_BLOB, null, array(
-        'nullable'  => false
-    ), 'Request Data')
+    ->addColumn(
+        'request_id',
+        Varien_Db_Ddl_Table::TYPE_INTEGER,
+        null,
+        array(
+            'identity' => true,
+            'unsigned' => true,
+            'nullable' => false,
+            'primary'  => true
+        ),
+        'Request ID'
+    )
+    ->addColumn(
+        'request_name',
+        Varien_Db_Ddl_Table::TYPE_VARCHAR,
+        128,
+        array(
+            'nullable' => false
+        ),
+        'Request Name'
+    )
+    ->addColumn(
+        'request_data',
+        Varien_Db_Ddl_Table::TYPE_BLOB,
+        null,
+        array(
+            'nullable'  => false
+        ),
+        'Request Data'
+    )
     ->setComment('KeyCash Scheduled KeyVerify API Requests Table');
 
 $installer->getConnection()->createTable($scheduledKeyVerifyApiRequestsTable);

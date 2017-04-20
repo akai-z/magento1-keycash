@@ -12,7 +12,7 @@
  *
  * @category    Keycash
  * @package     Keycash_Core
- * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
@@ -162,6 +162,14 @@
                     <model>keycash_core/observer::createKeycashOrders</model>
                 </run>
             </keycash_create_orders>
+            <keycash_verify_orders>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>keycash_core/observer::verifyOrders</model>
+                </run>
+            </keycash_verify_orders>
             <keycash_update_orders_verification_status>
                 <schedule>
                     <cron_expr>*/10 * * * *</cron_expr>

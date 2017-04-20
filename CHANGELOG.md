@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.3.0](https://github.com/keycash/magento1-keycash/tree/0.3.0) - 2017-04-21
+[Full Changelog](https://github.com/keycash/magento1-keycash/compare/0.2.1...0.3.0)
+
+**Added**
+* Orders auto verification feature.
+* Some TODO tasks.
+
+**Changed**
+* Format and refactor code.
+* Copyright company URL inside code files DocBlocks.
+
+**Fixed**
+* Hide PHP code sniffer unrelated Magento 1 warnings.
+
+**Removed**
+* Unnecessary field and filter from order verification cron job collection.
+* Orders limit from KeyCash orders verification status cron update job.
+
 ## [0.2.1](https://github.com/keycash/magento1-keycash/tree/0.2.1) - 2017-03-12
 [Full Changelog](https://github.com/keycash/magento1-keycash/compare/0.2.0...0.2.1)
 

@@ -11,11 +11,14 @@
  *
  * @category    Keycash
  * @package     Keycash_Core
- * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
 {
+    // @codingStandardsIgnoreEnd
+
     protected function _construct()
     {
         $this->_init('keycash_core/apirequest');
@@ -29,7 +32,11 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
         $requestName = ucwords(str_replace('_', ' ', $this->getRequestName()));
         $requestFunction = 'execute' . str_replace(' ', '', $requestName);
 
+        // TODO look into the possibility of refactoring the whole class and getting rid of "call_user_func".
+        //      by splitting this class into a pool smaller API classes/objects.
+        // @codingStandardsIgnoreStart
         call_user_func(array($this, $requestFunction));
+        // @codingStandardsIgnoreEnd
     }
 
     /**
@@ -37,7 +44,9 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
      */
     public function getRequestData()
     {
+        // @codingStandardsIgnoreStart
         $requestData = @unserialize(parent::getRequestData());
+        // @codingStandardsIgnoreEnd
 
         if (false === $requestData && $requestData != 'b:0;') {
             $requestData = parent::getRequestData();
@@ -173,6 +182,9 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
     /**
      * Executes KeyCash mass order verification API request
      *
+     * @todo refactor method as its cyclomatic complexity exceeds the limit
+     * @codingStandardsIgnoreStart
+     *
      * @param array $requestData
      * @return array
      */
@@ -198,6 +210,7 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
 
         $verificationLimit = Mage::helper('keycash_core')->getSendOrdersLimit();
         if ($verificationLimit) {
+            // TODO move data access related code to a resource model
             $keycashOrderCollection->getSelect()->limit($verificationLimit);
         }
 
@@ -220,6 +233,7 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
                 array_keys($categorizedKeycashOrders['verified'])
             );
         }
+
         if (!empty($categorizedKeycashOrders['unverified'])) {
             $unsubmittedOrders = array_diff(
                 $unsubmittedOrders,
@@ -291,6 +305,7 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
                 ->insertMultiple($ordersToUpdate, true);
         }
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Executes KeyCash order data retrieve API request
@@ -383,8 +398,7 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
     {
         $data = array();
 
-        if (
-            (isset($response['status']) && !$response['status'])
+        if ((isset($response['status']) && !$response['status'])
             || !isset($response['response_body']['data'][0])
         ) {
             return $data;
@@ -455,8 +469,7 @@ class Keycash_Core_Model_Apirequest extends Mage_Core_Model_Abstract
     {
         $data = array();
 
-        if (
-            (isset($response['status']) && !$response['status'])
+        if ((isset($response['status']) && !$response['status'])
             || !isset($response['response_body']['data'][0])
         ) {
             return $data;

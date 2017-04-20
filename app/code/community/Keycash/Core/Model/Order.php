@@ -11,11 +11,14 @@
  *
  * @category    Keycash
  * @package     Keycash_Core
- * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
 {
+    // @codingStandardsIgnoreEnd
+
     protected function _construct()
     {
         $this->_init('keycash_core/order');
@@ -52,6 +55,10 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
+     * @todo refactor method as its cyclomatic complexity exceeds the limit
+     * @todo move data access related code to a resource model
+     * @codingStandardsIgnoreStart
+     *
      * @param int|Mage_Sales_Model_Order $order
      * @param bool $checkKeycashOrder
      * @return bool
@@ -88,8 +95,10 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         }
 
         if (is_integer($order)) {
+            // TODO get rid of getFirstItem method
             $order = $orderCollection->getFirstItem();
         }
+
         if (in_array($order->getStatus(), $canceledOrderStatuses)) {
             return false;
         }
@@ -126,6 +135,7 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
                 )
                 ->where('order_payment.method IN (?)', $allowedPaymentMethods);
         }
+
         if ($allowedShippingCountries) {
             $orderCollection->getSelect()
                 ->join(
@@ -137,9 +147,13 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
 
         return $orderCollection->getSize() ? true : false;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Returns a filtered sales order collection
+     *
+     * @todo move data access related code to a resource model
+     * @codingStandardsIgnoreStart
      *
      * @param array $orderIds
      * @param bool $isUpdate
@@ -152,6 +166,7 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
         $orderCollectionAttributes = $this->getOrderCollectionAttributes();
         $orderCollection = Mage::getModel('sales/order')->getCollection();
 
+        // TODO get rid of duplicate code
         $closedOrderStatuses = Mage::getModel(
             'keycash_core/source_order_status_closed'
         )->toOptionArray(true);
@@ -252,6 +267,7 @@ class Keycash_Core_Model_Order extends Mage_Core_Model_Abstract
 
         return $orderCollection;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Retrieves a set of attributes for sales order collection

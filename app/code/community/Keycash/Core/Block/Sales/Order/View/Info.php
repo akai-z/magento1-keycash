@@ -11,7 +11,7 @@
  *
  * @category    Keycash
  * @package     Keycash_Core
- * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -21,12 +21,14 @@
  * @category    Keycash
  * @package     Keycash_Core
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Block_Sales_Order_View_Info extends Mage_Core_Block_Template
 {
     /**
      * @var Keycash_Core_Model_Order
      */
     protected $keycashOrder;
+    // @codingStandardsIgnoreEnd
 
     protected function _construct()
     {

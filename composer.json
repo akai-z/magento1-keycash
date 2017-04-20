@@ -5,7 +5,7 @@
         "OSL-3.0",
         "AFL-3.0"
     ],
-    "version": "0.2.1",
+    "version": "0.3.0",
     "description": "A Magento 1 module that integrates stores with KeyCash service for sales orders verification",
     "require": {
         "magento-hackathon/magento-composer-installer": "*"
@@ -14,7 +14,7 @@
         {
             "name": "Ammar Khalid",
             "email": "ammar@keycash.co",
-            "homepage": "https://github.com/amr-z",
+            "homepage": "https://api.github.com/user/4558603",
             "role": "Developer"
         }
     ]

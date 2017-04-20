@@ -11,9 +11,10 @@
  *
  * @category    Keycash
  * @package     Keycash_Core
- * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Model_Source_Order_Status_Closed
 {
     /**
@@ -31,6 +32,7 @@ class Keycash_Core_Model_Source_Order_Status_Closed
             Mage_Sales_Model_Order::STATUS_FRAUD
         )
     );
+    // @codingStandardsIgnoreEnd
 
     /**
      * @param bool $flat

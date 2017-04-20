@@ -26,7 +26,7 @@ https://github.com/keycash/magento1-keycash/wiki
 
 ## Authors
 
-* [Ammar Khalid](https://github.com/amr-z)
+* [Ammar Khalid](https://api.github.com/user/4558603)
 
 ## License
 

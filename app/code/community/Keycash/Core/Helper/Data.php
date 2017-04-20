@@ -11,11 +11,13 @@
  *
  * @category    Keycash
  * @package     Keycash_Core
- * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    // @codingStandardsIgnoreEnd
     /**
      * Config general XML paths
      */
@@ -29,6 +31,7 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
      * Config KeyVerify XML paths
      */
     const XML_PATH_KEY_VERIFY_SEND_ORDERS = 'keycash/key_verify/send_orders';
+    const XML_PATH_KEY_VERIFY_AUTO_ORDER_VERIFICATION = 'keycash/key_verify/auto_order_verification';
     const XML_PATH_KEY_VERIFY_SEND_ORDERS_LIMIT = 'keycash/key_verify/send_orders_limit';
     const XML_PATH_KEY_VERIFY_ORDER_PAYMENT_FILTER = 'keycash/key_verify/allow_order_payment_filter';
     const XML_PATH_KEY_VERIFY_ORDER_FILTER_PAYMENT_METHODS = 'keycash/key_verify/order_filter_payment_methods';
@@ -110,6 +113,14 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
     public function isSendOrdersEnabled()
     {
         return (bool) Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_SEND_ORDERS);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAutoOrderVerificationEnabled()
+    {
+        return (bool) Mage::getStoreConfig(self::XML_PATH_KEY_VERIFY_AUTO_ORDER_VERIFICATION);
     }
 
     /**
@@ -254,9 +265,12 @@ class Keycash_Core_Helper_Data extends Mage_Core_Helper_Abstract
             ->getCollection()
             ->addFieldToFilter('path', $path);
 
+        // TODO get rid of getFirstItem method
+        // @codingStandardsIgnoreStart
         return $configDataCollection->getSize()
             ? $configDataCollection->getFirstItem()->getValue()
             : null;
+        // @codingStandardsIgnoreEnd
     }
 
     /**

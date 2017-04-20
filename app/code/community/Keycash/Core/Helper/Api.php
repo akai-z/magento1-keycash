@@ -11,7 +11,7 @@
  *
  * @category    Keycash
  * @package     Keycash_Core
- * @copyright   Copyright (c) 2017 KeyCash. (https://keycash.co)
+ * @copyright   Copyright (c) 2017 KeyCash. (https://www.keycash.co/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -21,8 +21,10 @@
  * @category    Keycash
  * @package     Keycash_Core
  */
+// @codingStandardsIgnoreStart
 class Keycash_Core_Helper_Api extends Mage_Core_Helper_Abstract
 {
+    // @codingStandardsIgnoreEnd
     /**
      * API base URL
      */
@@ -134,6 +136,7 @@ class Keycash_Core_Helper_Api extends Mage_Core_Helper_Abstract
      * @param string $httpRequest
      * @param array $headers
      * @return array
+     * @codingStandardsIgnoreStart
      */
     public function sendRequest(
         $action,
@@ -142,6 +145,7 @@ class Keycash_Core_Helper_Api extends Mage_Core_Helper_Abstract
         $httpRequest = Varien_Http_Client::GET,
         $headers = array()
     ) {
+        // @codingStandardsIgnoreEnd
         $result = array();
         $queryString = array();
         $skipDefaultContentTypeHeader = false;
@@ -165,9 +169,11 @@ class Keycash_Core_Helper_Api extends Mage_Core_Helper_Abstract
                 if (isset($params['url_params']) && $action) {
                     $action = vsprintf($action, $params['url_params']);
                 }
+
                 if (isset($params['query_string'])) {
                     $queryString = $params['query_string'];
                 }
+
                 if (!isset($params['url_params']) && !isset($params['query_string'])) {
                     $queryString = $params;
                 }
@@ -190,6 +196,7 @@ class Keycash_Core_Helper_Api extends Mage_Core_Helper_Abstract
                 if ($this->isHeaderFieldUsed('Content-Type', $headers)) {
                     $skipDefaultContentTypeHeader = true;
                 }
+
                 if ($this->isHeaderFieldUsed('Accept', $headers)) {
                     $skipDefaultAcceptHeader = true;
                 }
@@ -203,6 +210,7 @@ class Keycash_Core_Helper_Api extends Mage_Core_Helper_Abstract
                 $logData['headers'][] = 'Content-Type: ' . self::DEFAULT_HEADER_CONTENT_TYPE;
                 $httpClient->setHeaders('Content-Type', self::DEFAULT_HEADER_CONTENT_TYPE);
             }
+
             if (!$skipDefaultAcceptHeader) {
                 $logData['headers'][] = 'Accept: ' . self::DEFAULT_HEADER_ACCEPT;
                 $httpClient->setHeaders('Accept', self::DEFAULT_HEADER_ACCEPT);
