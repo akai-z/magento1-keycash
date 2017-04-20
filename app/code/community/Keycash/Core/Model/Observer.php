@@ -457,14 +457,6 @@ class Keycash_Core_Model_Observer
             ->addFieldToFilter('is_verified', 0)
             ->addFieldToFilter('verification_state', $verificationStateFilter);
 
-        $ordersLimit = $helper->getSendOrdersLimit();
-        if ($ordersLimit) {
-            // TODO move data access related code to a resource model
-            // @codingStandardsIgnoreStart
-            $keycashOrderCollection->getSelect()->limit($ordersLimit);
-            // @codingStandardsIgnoreEnd
-        }
-
         foreach ($keycashOrderCollection as $order) {
             $orderData = $apiRequestModel->executeOrderRetrieveRequest(
                 $order->getKeycashOrderId(),
