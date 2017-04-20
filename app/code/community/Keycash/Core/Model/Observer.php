@@ -403,8 +403,6 @@ class Keycash_Core_Model_Observer
             ->addFieldToSelect('sales_order_id')
             ->addFieldToSelect('keycash_order_id')
             ->addFieldToSelect('increment_id')
-            ->addFieldToSelect('is_verified')
-            ->addFieldToFilter('is_verified', 0)
             ->addFieldToFilter('verification_state', $verificationStateFilter);
 
         $ordersLimit = $helper->getSendOrdersLimit();
