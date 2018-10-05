@@ -1,5 +1,7 @@
 # KeyCash `[ABANDONED]`
 
+## `Code needs lots of refactoring and improvement.`
+
 KeyCash is a service that supports cash on delivery (COD) orders in emerging markets.
 
 COD is a popular alternative to credit card payments for e-commerce shopping.  
