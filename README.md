@@ -3,8 +3,7 @@
 KeyCash is a service that supports cash on delivery (COD) orders in emerging markets.
 
 COD is a popular alternative to credit card payments for e-commerce shopping.  
-It is dominant in countries such as: India, Russia, Saudi Arabia.  
-And a popular one in Asia, Africa and East Europe.
+And it's popular in Asia, Africa and East Europe.
 
 COD orders are higher risk for merchants,  
 because orders may be rejected upon delivery wasting time and money.
